@@ -4,13 +4,22 @@
 #include<iostream>
 using namespace std;
 
+namespace nBencode
+{
 class decode
 {
     public:
         decode();
-        decode(string);
-        decode(istream &);
+        decodeFile(string);
+        decodeFile(istream &);
+
+        
+    private:
+    	bool decodeString(istream&);
+    	bool decodeInterger(istream&);
+    	bool decodeDict(istream&);
+    	bool decodeList(istream&);
 
 };
-
+}
 #endif /* DECODE_HXX */
