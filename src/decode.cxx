@@ -17,13 +17,13 @@ namespace nBencode
 		switch(i)
 		{
 			case 'd': 
-				decodeDect(inStream);
+				return decodeDect(inStream);
 			break;
 			case 'i':
-				decodeInteger(inStream);
+				return decodeInteger(inStream);
 			break;
 			case 'l':
-				decodeList(inStream);
+				return decodeList(inStream);
 			break;
 			case 1:
 
@@ -42,5 +42,44 @@ namespace nBencode
 	}
 
 
-	shared
+	unique_ptr<CItem> decodeInteger(istream& inStream)
+	{
+		//! Read 'i'
+		inStream.get();
+		std::string sValue;
+		while(inStream.peek() != 'e')
+		{
+			sValue+= inStream.get();
+		}
+		if(!(inStream.peek() == std::char_traits<char>::eof()))
+		{
+			throw std::runtime_error("invalid integer");
+		}
+		//! Read 'e'
+		inStream.get();
+		auto iVal = std::stoi(sValue, nullptr);
+		return unique_ptr<CInteger>(new CInteger(iVal));
+	}
+
+
+	unique_ptr<CList> decodeList(istream& inStream)
+	{
+		//! Read 'l'
+		inStream.get();
+		unique_ptr<CList> uList;
+		while(inStream.peek() != 'e')
+		{
+			auto sItem = decodeFile(inStream);
+			uList->push_back(sItem);
+		}
+		if(!(inStream.peek() == std::char_traits<char>::eof()))
+		{
+			throw std::runtime_error("invalid list");
+		}
+		//! Read 'e'
+		inStream.get();
+		return uList;
+	}
+
+
 }
