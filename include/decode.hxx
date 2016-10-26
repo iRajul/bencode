@@ -10,15 +10,17 @@ class decode
 {
     public:
         decode();
-        decodeFile(string);
-        decodeFile(istream &);
+        unique_ptr<Citem> decodeFile(string);
+        unique_ptr<Citem> decodeFile(istream &);
 
-        
     private:
-    	bool decodeString(istream&);
-    	bool decodeInterger(istream&);
-    	bool decodeDict(istream&);
-    	bool decodeList(istream&);
+        bool decodeString(istream&);
+        bool decodeInterger(istream&);
+        bool decodeDict(istream&);
+        bool decodeList(istream&);
+
+        unique_ptr<CItem> decodeString(istream &inStream) const;
+        string::size_type GetStringLength(istream &inStream) const;
 
 };
 }

@@ -14,38 +14,38 @@ namespace nBencode
     {
         using ValueType  = std::list;
         public:
-            Clist();
+        Clist();
 
         private:
-            ValueType value_;
+        ValueType value_;
 
     };
 
     class CString : public CItems
     {
         using ValueType = std::string;
-    public:
+        public:
         CString();
-    private:
+        private:
         ValueType value_;
 
     };
 
     class CDict : public Citems
     {
-         using ValueType = std::string;
-    public:
+        using ValueType = std::string;
+        public:
         CString();
-    private:
+        private:
         ValueType value_;
     };
 
     class CInteger : public Citems
     {
-         using ValueType = std::int64_t;
-    public:
+        using ValueType = std::int64_t;
+        public:
         CInteger();
-    private:
+        private:
         ValueType value_;
     };
 }
