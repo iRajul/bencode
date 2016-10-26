@@ -99,7 +99,7 @@ namespace nBencode
         while(inStream.peek() != 'e')
         {
             auto sItem = decodeFile(inStream);
-            uItemList->push_back(sItem);
+            uItemList->push_back(move(sItem));
         }
         if(!(inStream.peek() == std::char_traits<char>::eof()))
         {
@@ -114,7 +114,7 @@ namespace nBencode
     {
         //! Read 'd'
         inStream.get();
-        unique_ptr<CDict> dict(new CDict);
+        unique_ptr<CDict> dict(new CDict());
         while(inStream and inStream.peek() != 'e')
         {
                shared_ptr<CItem> key = decodeFile(inStream); 
@@ -124,7 +124,7 @@ namespace nBencode
                     throw std::runtime_error("Invalid key in map!");
                }
                shared_ptr<CItem> value =  decodeFile(inStream);
-               (*dict)[key] = value;
+               (*dict)[sKey] = value;
         }
         //! Read 'e'
         inStream.get();

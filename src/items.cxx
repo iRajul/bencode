@@ -21,7 +21,7 @@ auto CString::GetValue()  const -> ValueType
 {}
 */
 CList::CList():CItem(){}
-void CList::push_back(const auto &bItem)
+void CList::push_back(const shared_ptr<CItem> &bItem)
 {
    itemList_.push_back(bItem); 
 }
@@ -31,7 +31,7 @@ void CList::push_back(const auto &bItem)
 */
 
 CDict::CDict():CItem(){};
-auto & CDict::operator[](const auto &key)
+CDict::mapped_type & CDict::operator[](const key_type &key)
 {
     return value_[key]; 
 }

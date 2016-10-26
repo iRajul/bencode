@@ -22,7 +22,7 @@ namespace nBencode
         public:
         CList();
         ~CList(){}
-        void push_back(const auto &item);
+        void push_back(const shared_ptr<CItem> &item);
 
         private:
 
@@ -59,10 +59,16 @@ namespace nBencode
         using ValueType = std::map<shared_ptr<CString> , 
               shared_ptr<CItem>, CompStringItem >;
         public:
+
+        using key_type = ValueType::key_type;
+
+        using mapped_type = ValueType::mapped_type;
+            
             CDict();
             ~CDict(){}
 
-        auto & operator[](const auto &key);
+
+        mapped_type & operator[](const key_type &key);
         
         private:
         ValueType value_;
