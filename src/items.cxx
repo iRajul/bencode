@@ -5,6 +5,7 @@ using namespace std;
 CString::CString(ValueType value):value_(value)
 {}
 
+CString::CString(){}
 
 ValueType CString::GetValue() const
 {

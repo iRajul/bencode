@@ -10,14 +10,13 @@ namespace nBencode
 
     }
 
-    unique_ptr<item> decode::decodeFile(istream &inStream)
+    unique_ptr<CItem> decode::decodeFile(istream &inStream)
     {
-        shared_ptr<item> pItem;
         int i = inStream.peek();
         switch(i)
         {
             case 'd': 
-                return decodeDect(inStream);
+                return decodeDict(inStream);
                 break;
             case 'i':
                 return decodeInteger(inStream);
@@ -26,9 +25,7 @@ namespace nBencode
                 return decodeList(inStream);
                 break;
             case 1:
-
             case 2:
-
             case 3:
             case 4:
             case 5:
@@ -36,13 +33,15 @@ namespace nBencode
             case 7:
             case 8:
             case 9:
-                case 0;
+            case 0:
                 return decodeString(inStream);
+            default:
+                throw runtime_error("Invalid Item!");
         }
     }
 
 
-    unique_ptr<CItem> decodeString(istream &inStream) const
+    unique_ptr<CString> decode::decodeString(istream &inStream) const
     {
         string::size_type length = GetStringLength(inStream);
         string sRet(length, char());
@@ -55,7 +54,7 @@ namespace nBencode
         return unique_ptr<CString>(new CString(sRet));
     }
 
-    string::size_type GetStringLength(istream &inStream) const
+    string::size_type decode::GetStringLength(istream &inStream) const
     {
         std::string sNum;
         while(inStream.peek() != std::char_traits<char>::eof()  and
@@ -72,7 +71,7 @@ namespace nBencode
         return length;
     }
 
-    unique_ptr<CItem> decodeInteger(istream& inStream)
+    unique_ptr<CItem> decode::decodeInteger(istream& inStream)
     {
         //! Read 'i'
         inStream.get();
@@ -87,16 +86,16 @@ namespace nBencode
         }
         //! Read 'e'
         inStream.get();
-        auto iVal = std::stoi(sValue, nullptr);
+        CInteger::ValueType iVal = std::stoi(sValue, nullptr);
         return unique_ptr<CInteger>(new CInteger(iVal));
     }
 
 
-    unique_ptr<CList> decodeList(istream& inStream)
+    unique_ptr<CItem> decode::decodeList(istream& inStream)
     {
         //! Read 'l'
         inStream.get();
-        unique_ptr<CList> uItemList;
+        unique_ptr<CList> uItemList(new CList());
         while(inStream.peek() != 'e')
         {
             auto sItem = decodeFile(inStream);
@@ -111,7 +110,7 @@ namespace nBencode
         return uItemList;
     }
 
-    unique_ptr<CDict> decodeDict(istream& inStream)
+    unique_ptr<CItem> decode::decodeDict(istream& inStream)
     {
         //! Read 'd'
         inStream.get();
@@ -125,12 +124,10 @@ namespace nBencode
                     throw std::runtime_error("Invalid key in map!");
                }
                shared_ptr<CItem> value =  decodeFile(inStream);
+               *dict[key] = value;
         }
         //! Read 'e'
         inStream.get();
         return dict;
-        
     }
-
-
 }

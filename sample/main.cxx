@@ -13,6 +13,8 @@ int main( )
 { 
    ifstream iFile;
    iFile.open("sample1.torrent", std::ifstream::in);
-   nBecode::decode(iFile);
+   nBencode::decode decoder;
+   decoder.decodeFile(iFile);
+
    return 0; 
 }

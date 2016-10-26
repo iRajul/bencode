@@ -17,10 +17,12 @@ class decode
         unique_ptr<CItem> decodeFile(istream &);
 
     private:
-        unique_ptr<CString> decodeString(istream&) const;
-        unique_ptr<CDict> decodeDict(istream&);
-        unique_ptr<Clist> decodeList(istream&);
-        unique_ptr<CInteger> decodeInteger(istream& inStream);
+        bool decodeString(istream&);
+        bool decodeInterger(istream&);
+        bool decodeDict(istream&);
+        bool decodeList(istream&);
+
+        unique_ptr<CItem> decodeString(istream &inStream) const;
         string::size_type GetStringLength(istream &inStream) const;
 
 };

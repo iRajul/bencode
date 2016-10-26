@@ -1,34 +1,40 @@
 #ifndef ITEMS_HXX
 #define ITEMS_HXX
+#include <memory>
+#include <list>
+#include <map>
+#include<string>
 using namespace std; 
+
 
 namespace nBencode
 {
-    class Citem
+    class CItem
     {
         public:
-            virtual ~Citem();
+            virtual ~CItem();
     };
 
-    class CList : public Citem
+    class CList : public CItem
     {
         using ValueType  = std::list<shared_ptr<CItem> >;
         public:
-        Clist();
+        CList();
+        void push_back(const auto &item);
 
         private:
-        void push_back();
 
         private:
             ValueType itemList_;
 
     };
 
-    class CString : public Citem
+    class CString : public CItem
     {
         using ValueType = std::string;
         public:
         CString();
+        CString(ValueType&);
         
         ValueType GetValue() const;
 
@@ -37,7 +43,7 @@ namespace nBencode
 
     };
 
-    class CDict : public Citem
+    class CDict : public CItem
     {
         struct CompStringItem
         {
@@ -46,11 +52,10 @@ namespace nBencode
             {
                 return lhs->GetValue() < rhs->GetValue();
             }
-        }
+        };
         using ValueType = std::map<shared_ptr<CString> , 
-              shread_ptr<CItem>, CompStringItem>;
+              shared_ptr<CItem>, CompStringItem>;
         public:
-        CString();
 
         auto & operator[](const auto &key);
         
@@ -58,11 +63,13 @@ namespace nBencode
         ValueType value_;
     };
 
-    class CInteger : public Citem
+    class CInteger : public CItem
     {
+        public:
         using ValueType = std::int64_t;
         public:
         CInteger();
+        CInteger(ValueType&);
         private:
         ValueType value_;
     };
