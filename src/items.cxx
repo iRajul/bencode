@@ -6,11 +6,25 @@ CString::CString(ValueType value):value_(value)
 {}
 
 
-CList()::Clist(ValueType value):value_(value)
+ValueType CString::GetValue() const
+{
+    return value_;
+}
+CList()::Clist(ValueType value):itemList_(value)
 {}
+
+Clist::push_back(const auto &bItem)
+{
+   itemList_.push_back(bItem); 
+}
 
 CDict()::CDict(ValueType value):value_(value)
 {}
+
+auto & CDict::operator[](const auto &key)
+{
+    return value_[key]; 
+}
 
 CInteger()::CInteger(ValueType value):value_(value)
 {}

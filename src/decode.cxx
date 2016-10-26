@@ -96,11 +96,11 @@ namespace nBencode
     {
         //! Read 'l'
         inStream.get();
-        unique_ptr<CList> uList;
+        unique_ptr<CList> uItemList;
         while(inStream.peek() != 'e')
         {
             auto sItem = decodeFile(inStream);
-            uList->push_back(sItem);
+            uItemList->push_back(sItem);
         }
         if(!(inStream.peek() == std::char_traits<char>::eof()))
         {
@@ -108,7 +108,28 @@ namespace nBencode
         }
         //! Read 'e'
         inStream.get();
-        return uList;
+        return uItemList;
+    }
+
+    unique_ptr<CDict> decodeDict(istream& inStream)
+    {
+        //! Read 'd'
+        inStream.get();
+        unique_ptr<CDict> dict(new CDict);
+        while(inStream and inStream.peek() != 'e')
+        {
+               shared_ptr<CItem> key = decodeFile(inStream); 
+               shared_ptr<CString> sKey = dynamic_pointer_cast<CString>(key);
+               if(!sKey)
+               {
+                    throw std::runtime_error("Invalid key in map!");
+               }
+               shared_ptr<CItem> value =  decodeFile(inStream);
+        }
+        //! Read 'e'
+        inStream.get();
+        return dict;
+        
     }
 
 
