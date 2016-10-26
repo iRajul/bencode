@@ -71,7 +71,7 @@ namespace nBencode
         return length;
     }
 
-    unique_ptr<CItem> decode::decodeInteger(istream& inStream)
+    unique_ptr<CInteger> decode::decodeInteger(istream& inStream)
     {
         //! Read 'i'
         inStream.get();
@@ -91,7 +91,7 @@ namespace nBencode
     }
 
 
-    unique_ptr<CItem> decode::decodeList(istream& inStream)
+    unique_ptr<CList> decode::decodeList(istream& inStream)
     {
         //! Read 'l'
         inStream.get();
@@ -110,7 +110,7 @@ namespace nBencode
         return uItemList;
     }
 
-    unique_ptr<CItem> decode::decodeDict(istream& inStream)
+    unique_ptr<CDict> decode::decodeDict(istream& inStream)
     {
         //! Read 'd'
         inStream.get();
@@ -124,7 +124,7 @@ namespace nBencode
                     throw std::runtime_error("Invalid key in map!");
                }
                shared_ptr<CItem> value =  decodeFile(inStream);
-               *dict[key] = value;
+               (*dict)[key] = value;
         }
         //! Read 'e'
         inStream.get();

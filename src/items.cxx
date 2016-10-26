@@ -1,31 +1,42 @@
-#include "items.h"
+#include "items.hxx"
 
 using namespace std;
 
-CString::CString(ValueType value):value_(value)
+namespace nBencode
+{
+
+CItem::~CItem()
+{}
+CString::CString(ValueType &value):CItem(), 
+value_(value)
 {}
 
-CString::CString(){}
+CString::CString():CItem(){}
 
-ValueType CString::GetValue() const
+auto CString::GetValue()  const -> ValueType
 {
     return value_;
 }
-CList()::Clist(ValueType value):itemList_(value)
+/*CList::Clist(ValueType value):itemList_(value)
 {}
-
-Clist::push_back(const auto &bItem)
+*/
+CList::CList():CItem(){}
+void CList::push_back(const auto &bItem)
 {
    itemList_.push_back(bItem); 
 }
 
-CDict()::CDict(ValueType value):value_(value)
+/*CDict::CDict(ValueType value):value_(value)
 {}
+*/
 
+CDict::CDict():CItem(){};
 auto & CDict::operator[](const auto &key)
 {
     return value_[key]; 
 }
 
-CInteger()::CInteger(ValueType value):value_(value)
+CInteger::CInteger(ValueType &value):CItem(),value_(value)
 {}
+
+}

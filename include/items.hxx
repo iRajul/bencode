@@ -3,7 +3,7 @@
 #include <memory>
 #include <list>
 #include <map>
-#include<string>
+#include <string>
 using namespace std; 
 
 
@@ -12,7 +12,8 @@ namespace nBencode
     class CItem
     {
         public:
-            virtual ~CItem();
+            CItem(){}
+            virtual ~CItem() =0;
     };
 
     class CList : public CItem
@@ -20,6 +21,7 @@ namespace nBencode
         using ValueType  = std::list<shared_ptr<CItem> >;
         public:
         CList();
+        ~CList(){}
         void push_back(const auto &item);
 
         private:
@@ -34,6 +36,7 @@ namespace nBencode
         using ValueType = std::string;
         public:
         CString();
+        ~CString(){}
         CString(ValueType&);
         
         ValueType GetValue() const;
@@ -54,8 +57,10 @@ namespace nBencode
             }
         };
         using ValueType = std::map<shared_ptr<CString> , 
-              shared_ptr<CItem>, CompStringItem>;
+              shared_ptr<CItem>, CompStringItem >;
         public:
+            CDict();
+            ~CDict(){}
 
         auto & operator[](const auto &key);
         
@@ -68,8 +73,9 @@ namespace nBencode
         public:
         using ValueType = std::int64_t;
         public:
-        CInteger();
+        //CInteger();
         CInteger(ValueType&);
+        ~CInteger(){}
         private:
         ValueType value_;
     };
