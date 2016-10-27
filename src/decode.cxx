@@ -10,7 +10,7 @@ namespace nBencode
 
     }
 
-    unique_ptr<CItem> decode::decodeFile(istream &inStream)
+    unique_ptr<CItem> decode::decodeFile(istream &inStream) const
     {
         int i = inStream.peek();
         switch(i)
@@ -72,7 +72,7 @@ namespace nBencode
         return length;
     }
 
-    unique_ptr<CInteger> decode::decodeInteger(istream& inStream)
+    unique_ptr<CInteger> decode::decodeInteger(istream& inStream) const
     {
         //! Read 'i'
         inStream.get();
@@ -93,7 +93,7 @@ namespace nBencode
     }
 
 
-    unique_ptr<CList> decode::decodeList(istream& inStream)
+    unique_ptr<CList> decode::decodeList(istream& inStream) const
     {
         //! Read 'l'
         inStream.get();
@@ -112,7 +112,7 @@ namespace nBencode
         return uItemList;
     }
 
-    unique_ptr<CDict> decode::decodeDict(istream& inStream)
+    unique_ptr<CDict> decode::decodeDict(istream& inStream) const
     {
         //! Read 'd'
         inStream.get();
