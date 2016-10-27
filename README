@@ -2,4 +2,4 @@ mkdir id_rsa
 cd ~/.ssh && ssh-keygen
 cat id_rsa.pub 
 
-g++ main.cxx ../src/decode.cxx ../src/items.cxx -std=c++14 -I../include
+g++ main.cxx ../src/decode.cxx ../src/items.cxx ../src/visitor.cxx -std=c++14 -I../include

@@ -9,11 +9,14 @@ using namespace std;
 
 namespace nBencode
 {
+    //! forward decleration 
+    class CVisitorBase;
     class CItem
     {
         public:
             CItem(){}
             virtual ~CItem() =0;
+            virtual void accept(CVisitorBase*) =0;
     };
 
     class CList : public CItem
@@ -22,7 +25,18 @@ namespace nBencode
         public:
         CList();
         ~CList(){}
-        void push_back(const shared_ptr<CItem> &item);
+        void push_back(const shared_ptr<CItem> &item);	
+        /// Iterator (@c BidirectionalIterator).
+        using iterator = ValueType::iterator;
+        /// Constant iterator (constant @c BidirectionalIterator).
+        using const_iterator = ValueType::const_iterator;
+        iterator begin();
+        iterator end();
+        const_iterator begin() const;
+        const_iterator end() const;
+        const_iterator cbegin() const;
+        const_iterator cend() const;
+        void accept(CVisitorBase*);
 
         private:
 
@@ -38,6 +52,8 @@ namespace nBencode
         CString();
         ~CString(){}
         CString(ValueType&);
+        void accept(CVisitorBase*);
+        
         
         ValueType GetValue() const;
 
@@ -59,6 +75,16 @@ namespace nBencode
         using ValueType = std::map<shared_ptr<CString> , 
               shared_ptr<CItem>, CompStringItem >;
         public:
+        using iterator  = ValueType::iterator;
+        using const_iterator = ValueType::const_iterator;
+        iterator begin();
+        iterator end();
+        const_iterator begin() const;
+        const_iterator end() const;
+        const_iterator cbegin() const;
+        const_iterator cend() const;
+
+        void accept(CVisitorBase*);
 
         using key_type = ValueType::key_type;
 
@@ -78,10 +104,12 @@ namespace nBencode
     {
         public:
         using ValueType = std::int64_t;
+        void accept(CVisitorBase*);
         public:
         //CInteger();
         CInteger(ValueType&);
         ~CInteger(){}
+        ValueType GetValue() const;
         private:
         ValueType value_;
     };

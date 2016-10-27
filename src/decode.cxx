@@ -24,18 +24,19 @@ namespace nBencode
             case 'l':
                 return decodeList(inStream);
                 break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 0:
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '0':
                 return decodeString(inStream);
             default:
+                cout<<"Item = "<<i<<endl;
                 throw runtime_error("Invalid Item!");
         }
     }
@@ -64,7 +65,7 @@ namespace nBencode
         }
 
         string::size_type length = stoi(sNum, NULL);
-        if(! inStream.get() != ':')
+        if(inStream.get() != ':')
         {
             throw std::runtime_error("string length is invalid");
         }
@@ -80,8 +81,9 @@ namespace nBencode
         {
             sValue+= inStream.get();
         }
-        if(!(inStream.peek() == std::char_traits<char>::eof()))
+        if((inStream.peek() == std::char_traits<char>::eof()))
         {
+            cout<<sValue<<endl;
             throw std::runtime_error("invalid integer");
         }
         //! Read 'e'
@@ -101,7 +103,7 @@ namespace nBencode
             auto sItem = decodeFile(inStream);
             uItemList->push_back(move(sItem));
         }
-        if(!(inStream.peek() == std::char_traits<char>::eof()))
+        if((inStream.peek() == std::char_traits<char>::eof()))
         {
             throw std::runtime_error("invalid list");
         }
