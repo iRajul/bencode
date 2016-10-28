@@ -1,12 +1,38 @@
 # Bencode
-Bencode is c++ library used to encode and decode [bencode](https://wiki.theory.org/BitTorrentSpecification) data. I made this library for study purpose. You can extend it in antway they want.
+Bencode is  is a fully featured, open source, MIT licensed, c++ library used to encode and decode [bencode](https://wiki.theory.org/BitTorrentSpecification) data. 
 
-I took help from [here](https://github.com/s3rvac/cpp-bencoding).
+### About
+This project has been build for study purpose. I took help from [here](https://github.com/s3rvac/cpp-bencoding).
 
-` g++ main.cxx ../src/decode.cxx ../src/items.cxx ../src/visitor.cxx -std=c++14 -I../include`
+### Build Library from Source
+
+```
+cd into bencode directory
+make
+```
+
+It will build library into`lib` directory.
 
 
-Ignore Stuff
-mkdir id_rsa
-cd ~/.ssh && ssh-keygen
-cat id_rsa.pub 
+### Documentation
+Todo
+
+### Example Usage
+```
+int main( )
+{ 
+   ifstream iFile;
+   iFile.open("sample1.torrent", std::ifstream::in);
+   nBencode::decode decoder;
+   shared_ptr<nBencode::CItem> pItem = 
+   decoder.decodeFile(iFile);
+   
+   //print bencode data in pretty format.
+   shared_ptr<nBencode::CPrintPretty> print(
+   new nBencode::CPrintPretty());
+   print->Print(pItem);
+
+   return 0; 
+}
+
+```
