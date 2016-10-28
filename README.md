@@ -1,5 +1,5 @@
 # Bencode
-Bencode is  is a fully featured, open source, MIT licensed, c++ library used to encode and decode [bencode](https://wiki.theory.org/BitTorrentSpecification) data. 
+Bencode is  is a fully featured, open source, c++ library used to encode and decode [bencode](https://wiki.theory.org/BitTorrentSpecification) data. 
 
 ### About
 This project has been build for study purpose. I took help from [here](https://github.com/s3rvac/cpp-bencoding).
