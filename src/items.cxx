@@ -79,7 +79,7 @@ namespace nBencode
       {}
       */
 
-    CDict::CDict():CItem(){};
+    CDict::CDict():CItem(){}
     CDict::mapped_type & CDict::operator[](const key_type &key)
     {
         return value_[key]; 

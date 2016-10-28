@@ -1,23 +1,40 @@
 
-CC=gcc
-CFLAGS= -Wall -pedantic -std=c++14
+CC=/software/gcc/v4.9.2/x86_64-redhat-gnu_rhel5/bin/g++
+CFLAGS= -Wall -pedantic -std=c++14 -I./include
 
 
-SRCDIRS = src
+SRCDIR = src
 INCDIRS = include
+AR = ar 
 
-SOURCES  := $(wildcard $(SRCDIR)/*.cxx)
 INCLUDES := $(wildcard $(INCDIR)/*.hxx)
 
 
-default : bencode.a
+OBJDIR := obj
+LIBDIR := lib
 
-bencode.a : bencode.o 
+SOURCES  := $(wildcard $(SRCDIR)/*.cxx)
+OBJECTS  := $(SOURCES:$(SRCDIR)/%.cxx=$(OBJDIR)/%.o)
+MKDIR_P  = mkdir -p
 
-bencode.o : decode.o items.o visitor.o
-	$(CC) $(CFLAGS) -o bencode.o decode.o items.o visitor.o
 
-decode.o : $(SRCDIR)/decode.cxx
+default : objdirectory libbencode.a
+
+objdirectory : 
+		test -d $(OBJDIR) || mkdir $(OBJDIR);
+		test -d $(LIBDIR) || mkdir $(LIBDIR);
+		@echo $(SOURCES)
+		@echo $(OBJECTS)
+
+libbencode.a :  	$(OBJECTS)
+	@$(AR) rcv $(LIBDIR)/$@ $(OBJDIR)/*.o
+	@echo " Builing archive complete!"
+
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cxx
+	${MKDIR_P} ${OBJDIR} 
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled "$<" successfully!"
+
 
 
 

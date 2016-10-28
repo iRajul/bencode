@@ -3,3 +3,7 @@
 
 *.swp
 *.swo
+*.o
+obj/
+lib/
+*.exe
