@@ -1,5 +1,5 @@
 
-CC=/software/gcc/v4.9.2/x86_64-redhat-gnu_rhel5/bin/g++
+CC=g++
 CFLAGS= -Wall -pedantic -std=c++14 -I./include
 
 
