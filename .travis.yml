@@ -1,5 +1,5 @@
 language: generic
 os: linux
-env: COMPILER_NAME=gcc CXX=g++-4.9 CC=gcc-4.9
+env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
 script:
         - make
