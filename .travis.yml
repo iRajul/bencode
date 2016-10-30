@@ -1,5 +1,26 @@
-language: generic
-os: linux
-env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+language: cpp
+sudo: false
+
+matrix:
+  include:
+    - compiler: gcc
+      # GCC doesn't like building in parallel on ninja. No idea why.
+      env: COMPILER=g++-5 BUILD_ARGS="-j1"
+      addons:
+        apt:
+          sources: *sources
+          packages:
+            - g++-5
+            - libboost1.55-dev
+            - libboost-iostreams1.55-dev
+            - libboost-program-options1.55-dev
+            - ninja-build
+            - python-virtualenv
+cache:
+  apt: true
+
 script:
-        - make
+  - |
+    CXX=${COMPILER}
+    CC=${COMPILER}
+    make
